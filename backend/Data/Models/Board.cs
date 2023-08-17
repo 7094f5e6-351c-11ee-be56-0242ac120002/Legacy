@@ -8,7 +8,7 @@ namespace Data.Models
 {
     public class Board
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }    
         public bool IsDeleted { get; set; }
         public List<Assigment> Assigments { get; set; } = new List<Assigment>();
