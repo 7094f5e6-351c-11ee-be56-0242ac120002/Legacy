@@ -14,11 +14,12 @@ namespace Data.Models
         public string Description { get; set; }
         public Priority Priority { get; set; }  
         public Status Status { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime CreationTime { get; set; }
 
         public List<Tag> Tags { get; set; }
         public User User { get; set; }
         public Board Board { get; set; }
 
     }
+
 }
