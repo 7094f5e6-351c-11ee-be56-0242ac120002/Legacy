@@ -1,24 +1,32 @@
-# Vite React TypeScript Starter
+# Taskify Frontend
 
-This is a simple starter template for creating React applications using Vite and TypeScript.
+Taskify is a task management SaaS. It is a great place to manage teams. Team leader can assign tasks to members and track their status. This is very practical both for team leaders and a members since they can easily track their open, in progress and close tasks. 
+This is a Frontend of that application.
 
 ## Getting Started
 
-Follow these steps to set up and run the project locally:
-1. **Clone the repository:**
+#### Prerequisites
 
-   `git clone https://github.com/your-username/vite-react-ts-starter.git`
+Node.js required to be installed
 
-2. **Navigate to the project directory:**
+#### Follow these steps to set up and run the project locally:
 
-   `cd vite-react-ts-starter`
+(Assuming you have cloned the whole project already)
 
-3. **Install dependencies:**
-
-   `npm install`
-
-4. **Start the development server:**
-
-   `npm run dev`
-
-   
+1. **Navigate to the project directory:**
+  
+  ```bash
+  cd frontend
+  ```
+  
+2. **Install dependencies:**
+  
+  ```bash
+  npm install
+  ```
+  
+3. **Start the development server:**
+  
+  ```bash
+  npm run dev
+  ```
