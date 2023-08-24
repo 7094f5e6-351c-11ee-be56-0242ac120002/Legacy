@@ -19,6 +19,10 @@ namespace Data.Configurations
             builder.Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(64);
+
+            builder.HasOne(tag => tag.Board)
+                .WithMany(board => board.Tags)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

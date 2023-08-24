@@ -13,5 +13,6 @@ namespace Data.Models
         public bool IsDeleted { get; set; }
         public List<Assigment> Assigments { get; set; } = new List<Assigment>();
         public List<BoardUser> BoardUsers { get; set; } = new List<BoardUser>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

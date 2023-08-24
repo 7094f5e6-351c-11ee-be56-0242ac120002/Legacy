@@ -6,7 +6,6 @@ namespace Data.Models
     {
         public int UserId { get; set; }
         public int BoardId { get; set; }
-
         public User User { get; set; }
         public Board Board { get; set; }
         public Role Role { get; set; }

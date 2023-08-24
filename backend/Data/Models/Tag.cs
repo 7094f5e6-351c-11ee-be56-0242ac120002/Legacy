@@ -11,5 +11,7 @@ namespace Data.Models
         public int Id { get; set; } 
         public string Name { get; set; }
         public List<Assigment> Assigments { get; set; } = new List<Assigment>();
+        public Board Board { get; set; } = null!;
+        public int BoardId { get; set; }
     }
 }
