@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(TaskifyDbContext))]
-    [Migration("20230824155953_addNullableReferenceType")]
-    partial class addNullableReferenceType
+    [Migration("20230905075330_AddNullableReferenceType")]
+    partial class AddNullableReferenceType
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

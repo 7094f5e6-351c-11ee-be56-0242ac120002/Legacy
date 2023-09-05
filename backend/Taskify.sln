@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ADF8DB4B-1DAF-4F88-8196-A8E0F45731FB}"
 	ProjectSection(SolutionItems) = preProject
-		editorconfig = editorconfig
+		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
 Global
@@ -35,5 +35,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8360B84-F280-4B0A-8C9D-2FD8D439314D}
 	EndGlobalSection
 EndGlobal

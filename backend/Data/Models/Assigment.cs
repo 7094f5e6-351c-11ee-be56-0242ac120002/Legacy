@@ -1,4 +1,4 @@
-﻿using Data.Enums;
+using Data.Enums;
 
 namespace Data.Models
 {
@@ -7,12 +7,12 @@ namespace Data.Models
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public Priority Priority { get; set; }  
+        public Priority Priority { get; set; }
         public Status Status { get; set; }
         public DateTime CreationTime { get; set; }
 
-        public List<Tag> Tags { get; set; } = null!;    
-        public User User { get; set; } = null!; 
+        public List<Tag> Tags { get; set; } = null!;
+        public User User { get; set; } = null!;
         public Board Board { get; set; } = null!;
 
     }
