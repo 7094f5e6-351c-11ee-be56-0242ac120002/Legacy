@@ -11,7 +11,7 @@ namespace Data.Models
         public Status Status { get; set; }
         public DateTime CreationTime { get; set; }
 
-        public List<Tag> Tags { get; set; } = null!;
+        public List<Tag> Tags { get; set; } = new List<Tag>();
         public User User { get; set; } = null!;
         public Board Board { get; set; } = null!;
 

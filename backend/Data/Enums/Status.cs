@@ -1,9 +1,9 @@
-﻿namespace Data.Enums
+namespace Data.Enums
 {
     public enum Status
     {
         Open,
-        InProgres,
+        InProgress,
         Closed,
     }
 }
