@@ -1,29 +1,36 @@
-import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
+import { Card, Text, Button, Input, CardSection } from "@mantine/core";
+import mail from "../../assets/mail.svg";
 
 function LoginCard() {
   return (
     <Card
-      style={(theme) => ({ ...theme })}
       bg={"none"}
       shadow="sm"
       padding="md"
       radius="md"
-      withBorder
+      style={{
+        width: "50%",
+      }}
     >
       <Card.Section>
-        <Image
-          src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-          height={160}
-          alt="Norway"
-        />
+        <Text
+          style={{
+            fontSize: "80px",
+            fontWeight: "700",
+            lineHeight: "80px",
+            letterSpacing: "-7px",
+            textAlign: "center",
+          }}
+          c={"white"}
+        >
+          Nice to see <span style={{ color: "#59C3C3" }}>you</span> again!
+        </Text>
       </Card.Section>
 
-      <Group position="apart" mt="md" mb="xs">
-        <Text weight={500}>Norway Fjord Adventures</Text>
-        <Badge color="pink" variant="light">
-          On Sale
-        </Badge>
-      </Group>
+      <CardSection>
+        <Input icon={<img src={mail} />} placeholder="Enter your email" />
+        <Input></Input>
+      </CardSection>
 
       <Text size="sm" color="dimmed">
         With Fjord Tours you can explore more of the magical fjord landscapes
