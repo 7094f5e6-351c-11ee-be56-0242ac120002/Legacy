@@ -1,88 +1,39 @@
-import React from "react";
-import Button from "../../components/button/Button";
-import "./LoginCard.scoped.css";
+import { Card, Image, Text, Badge, Button, Group } from "@mantine/core";
 
-interface LoginCardProps {
-  onSignIn: () => Promise<void>;
-  onSignUp: () => Promise<void>;
-  onPasswordReset: () => Promise<void>;
-}
-
-const LoginCard: React.FC<LoginCardProps> = ({
-  onSignIn,
-  onSignUp,
-  onPasswordReset,
-}) => {
+function LoginCard() {
   return (
-    <div className="login-card">
-      <h1 className="heading">Nice to see you again!</h1>
-      <div className="login-form">
-        <div className="login-input">
-          <div className="email-input">
-            <img alt="email" src="" className="email-icon" />
-            <input
-              type="text"
-              className="email-text"
-              placeholder="Enter your email"
-            ></input>
-          </div>
-          <div className="password-input">
-            <img alt="password" src="" className="password-icon" />
-            <input
-              type="password"
-              className="password-text"
-              placeholder="Enter your password"
-            ></input>
-          </div>
-        </div>
-        <div className="login-buttons">
-          <Button
-            text="Sign In"
-            backgroundColor="#007bff"
-            foregroundColor="#fff"
-            onClick={onSignIn}
-            style={{
-              width: "449px",
-              height: "64px",
-              borderRadius: "64px",
-              padding: "17px 32px 17px 32px",
-              fontWeight: "600",
-              fontSize: "20px",
-              lineHeight: "31px",
-            }}
-          />
-          <Button
-            text="Sign Up"
-            backgroundColor="none"
-            foregroundColor="#fff"
-            onClick={onSignUp}
-            style={{
-              width: "449px",
-              height: "64px",
-              borderRadius: "64px",
-              padding: "17px 32px 17px 32px",
-              fontWeight: "600",
-              fontSize: "20px",
-              lineHeight: "31px",
-            }}
-          />
-          <Button
-            text="Forgot your password?"
-            backgroundColor="none"
-            foregroundColor="#9A9A9A"
-            onClick={onPasswordReset}
-            style={{
-              width: "187px",
-              height: "20px",
-              fontWeight: "500",
-              fontSize: "16px",
-              lineHeight: "19.5px",
-            }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
+    <Card
+      style={(theme) => ({ ...theme })}
+      bg={"none"}
+      shadow="sm"
+      padding="md"
+      radius="md"
+      withBorder
+    >
+      <Card.Section>
+        <Image
+          src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+          height={160}
+          alt="Norway"
+        />
+      </Card.Section>
 
+      <Group position="apart" mt="md" mb="xs">
+        <Text weight={500}>Norway Fjord Adventures</Text>
+        <Badge color="pink" variant="light">
+          On Sale
+        </Badge>
+      </Group>
+
+      <Text size="sm" color="dimmed">
+        With Fjord Tours you can explore more of the magical fjord landscapes
+        with tours and activities on and around the fjords of Norway
+      </Text>
+
+      <Button variant="light" color="blue" fullWidth mt="md" radius="md">
+        Book classic tour now
+      </Button>
+    </Card>
+  );
+}
 export default LoginCard;

@@ -1,32 +1,36 @@
-import './Login.scoped.css';
-import LoginCard from '../../components/login-card/LoginCard';
-import logo from '../../assets/logo.svg'
+import { MantineProvider } from "@mantine/core";
+import LoginCard from "../../components/login-card/LoginCard";
+import logo from "../../assets/logo.svg";
 
 const Login = () => {
-  const handleSignIn = async () => {
-    console.log("signing in action");
-  };
-  const handleSignUp = async () => {
-    console.log("signing up action");
-  };
-  const handlePasswordReset = async () => {
-    console.log("password reset clicked");
-  };
-
   return (
-    <div className='wrapper'>
-      <LoginCard
-        onSignIn={handleSignIn}
-        onSignUp={handleSignUp}
-        onPasswordReset={handlePasswordReset}
-      />
-      <div className='animation-space'>
-        <div className='logo-holder'>
-            <img alt='logo' src={logo} className='logo'/>
-            <div className='logo-text'>Taskify</div>
+    <MantineProvider
+      theme={{
+        fontFamily: "Montserrat",
+        colors: {
+          background: ["#141126"], // Define your custom background color here
+        },
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "var(--colors-background)", // Use the custom background color from the theme
+          minHeight: "100vh", // Set a minimum height for the page
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <LoginCard />
+        <div className="">
+          <div className="">
+            <img alt="logo" src={logo} className="" />
+            <div className="">Taskify</div>
+          </div>
         </div>
       </div>
-    </div>
+    </MantineProvider>
   );
 };
 

@@ -1,12 +1,12 @@
-@import url('./style/fonts.css');
+@import url("./style/fonts.css");
 
 :root {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #141126;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

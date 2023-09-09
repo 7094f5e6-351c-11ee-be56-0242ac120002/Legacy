@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@mantine/core": "^6.0.20",
+    "@mantine/form": "^6.0.20",
+    "@mantine/hooks": "^6.0.20",
+    "@tabler/core": "^1.0.0-beta20",
     "axios": "^1.5.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",

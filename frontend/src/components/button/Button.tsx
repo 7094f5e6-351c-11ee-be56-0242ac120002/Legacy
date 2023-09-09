@@ -1,33 +1,36 @@
-import React from 'react';
-import './Button.scoped.css';
+import React from "react";
 
 interface ButtonProps {
-    text: string;
-    backgroundColor: string;
-    foregroundColor: string;
-    onClick: () => Promise<void>;
-    children?: React.ReactNode;
-    style?: React.CSSProperties;
-  }
+  text: string;
+  backgroundColor: string;
+  foregroundColor: string;
+  onClick: () => Promise<void>;
+  children?: React.ReactNode;
+  style?: React.CSSProperties;
+}
 
 function Button({
-  text, backgroundColor, foregroundColor, onClick, children, style,
+  text,
+  backgroundColor,
+  foregroundColor,
+  onClick,
+  children,
+  style,
 }: ButtonProps) {
-  
-    const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-    const handleButtonClick = async () => {
-        try {
-          setIsLoading(true);
-          await onClick();
-        } catch (error) {
-          console.error('Error:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
+  const handleButtonClick = async () => {
+    try {
+      setIsLoading(true);
+      await onClick();
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    return (
+  return (
     <button
       type="button"
       style={{
@@ -37,7 +40,7 @@ function Button({
       }}
       onClick={handleButtonClick}
     >
-      {isLoading ? 'Loading...' : children || text}
+      {isLoading ? "Loading..." : children || text}
     </button>
   );
 }
