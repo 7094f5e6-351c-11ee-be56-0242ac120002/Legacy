@@ -1,0 +1,15 @@
+.login-card {
+    width: 449px;
+    height: 614px;
+    top: 173px;
+    left: 144px;
+    gap: 60px;
+    border: white 1px;
+}
+
+.heading {
+    width: 449px;
+    height: 196px;
+    font-weight: 700;
+    font-size: 80px;
+}
