@@ -1,0 +1,9 @@
+@font-face{
+  src: url('../../public/fonts/Montserrat/Montserrat.ttf');
+  font-family: 'Montserrat';
+}
+
+@font-face{
+    src: url('../fonts/Lexend_Giga/LexendGiga.ttf');
+    font-family: 'Lexend Giga';
+  }

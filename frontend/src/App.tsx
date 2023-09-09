@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 import './index.css'
 import Login from './pages/login/Login.tsx'
 import Register from './pages/register/Register.tsx'

@@ -22,7 +22,7 @@ const Login = () => {
       />
       <div className='animation-space'>
         <div className='logo-holder'>
-            <img alt='logo' src={logo}/>
+            <img alt='logo' src={logo} className='logo'/>
             <div className='logo-text'>Taskify</div>
         </div>
       </div>
