@@ -24,9 +24,9 @@ const LoginCard: React.FC<LoginCardProps> = ({ onSignIn, onSignUp, onPasswordRes
         </div>
         </div>
         <div className='login-buttons'>
-          <Button text="Sign In" backgroundColor="#007bff" foregroundColor="#fff" onClick={onSignIn} />
-          <Button text="Sign Up" backgroundColor="none" foregroundColor="#fff" onClick={onSignUp} />
-          <Button text="Forgot your password?" backgroundColor="none" foregroundColor="#9A9A9A" onClick={onPasswordReset} />
+          <Button text="Sign In" backgroundColor="#007bff" foregroundColor="#fff" onClick={onSignIn} style={{ width: '449px', height: '64px', borderRadius: '64px', padding: '17px 32px 17px 32px', fontWeight: '600', fontSize: '20px', lineHeight: '31px' }}/>
+          <Button text="Sign Up" backgroundColor="none" foregroundColor="#fff" onClick={onSignUp} style={{ width: '449px', height: '64px', borderRadius: '64px', padding: '17px 32px 17px 32px', fontWeight: '600', fontSize: '20px', lineHeight: '31px'  }}/>
+          <Button text="Forgot your password?" backgroundColor="none" foregroundColor="#9A9A9A" onClick={onPasswordReset} style={{width: '187px', height: '20px', fontWeight: '500', fontSize: '16px', lineHeight: '19.5px'}}/>
         </div>
       </div>
     </div>

@@ -7,10 +7,11 @@ interface ButtonProps {
     foregroundColor: string;
     onClick: () => Promise<void>;
     children?: React.ReactNode;
+    style?: React.CSSProperties;
   }
 
 function Button({
-  text, backgroundColor, foregroundColor, onClick, children,
+  text, backgroundColor, foregroundColor, onClick, children, style,
 }: ButtonProps) {
   
     const [isLoading, setIsLoading] = React.useState(false);
@@ -32,6 +33,7 @@ function Button({
       style={{
         backgroundColor,
         color: foregroundColor,
+        ...style,
       }}
       onClick={handleButtonClick}
     >
