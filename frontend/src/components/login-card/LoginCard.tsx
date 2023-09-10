@@ -1,8 +1,35 @@
 import { Card, Text, Button, Input, CardSection } from "@mantine/core";
 import { IconMail } from "@tabler/icons-react";
 import { IconKey } from "@tabler/icons-react";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function LoginCard() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    setEmail("");
+    setPassword("");
+    try {
+      const response = await axios.post("/api/auth/login", {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        const { token } = response.data;
+        localStorage.setItem("token", `Bearer ${token}`);
+
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Authentication failed:", error);
+    }
+  };
+
   return (
     <Card
       bg={"none"}
@@ -30,6 +57,8 @@ function LoginCard() {
 
       <CardSection style={{ marginTop: "40px" }}>
         <Input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           icon={<IconMail style={{ paddingLeft: "10px" }} />}
           placeholder="Enter your email"
           variant="unstyled"
@@ -45,8 +74,16 @@ function LoginCard() {
           }}
           h={"35px"}
           p={"4px"}
+          styles={{
+            input: {
+              color: "white",
+            },
+          }}
         />
         <Input
+          value={password}
+          type="password"
+          onChange={(e) => setPassword(e.target.value)}
           icon={<IconKey style={{ paddingLeft: "10px" }} />}
           placeholder="Enter your password"
           variant="unstyled"
@@ -61,6 +98,11 @@ function LoginCard() {
           }}
           h={"35px"}
           p={"4px"}
+          styles={{
+            input: {
+              color: "white",
+            },
+          }}
         />
       </CardSection>
 
@@ -72,6 +114,7 @@ function LoginCard() {
           size="lg"
           w={"100%"}
           mt={"10%"}
+          onClick={handleLogin}
         >
           Sign in
         </Button>
