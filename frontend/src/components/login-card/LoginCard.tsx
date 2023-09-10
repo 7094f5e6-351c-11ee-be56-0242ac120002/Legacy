@@ -1,5 +1,6 @@
 import { Card, Text, Button, Input, CardSection } from "@mantine/core";
-import mail from "../../assets/mail.svg";
+import { IconMail } from "@tabler/icons-react";
+import { IconKey } from "@tabler/icons-react";
 
 function LoginCard() {
   return (
@@ -9,7 +10,8 @@ function LoginCard() {
       padding="md"
       radius="md"
       style={{
-        width: "50%",
+        width: "57%",
+        gap: "60px",
       }}
     >
       <Card.Section>
@@ -17,9 +19,8 @@ function LoginCard() {
           style={{
             fontSize: "80px",
             fontWeight: "700",
-            lineHeight: "80px",
+            lineHeight: "90px",
             letterSpacing: "-7px",
-            textAlign: "center",
           }}
           c={"white"}
         >
@@ -27,19 +28,75 @@ function LoginCard() {
         </Text>
       </Card.Section>
 
-      <CardSection>
-        <Input icon={<img src={mail} />} placeholder="Enter your email" />
-        <Input></Input>
+      <CardSection style={{ marginTop: "40px" }}>
+        <Input
+          icon={<IconMail style={{ paddingLeft: "10px" }} />}
+          placeholder="Enter your email"
+          variant="unstyled"
+          style={{
+            backgroundColor: "rgba(0,0,0,76)",
+            alignItems: "center",
+            borderRadius: "10px",
+            color: "#9A9A9A",
+            borderColor: "#9A9A9A",
+            border: "1.7px solid",
+            marginBottom: "10px",
+            paddingLeft: "30px",
+          }}
+          h={"35px"}
+          p={"4px"}
+        />
+        <Input
+          icon={<IconKey style={{ paddingLeft: "10px" }} />}
+          placeholder="Enter your password"
+          variant="unstyled"
+          style={{
+            backgroundColor: "rgba(0,0,0,76)",
+            alignItems: "center",
+            borderRadius: "10px",
+            color: "#9A9A9A",
+            borderColor: "#9A9A9A",
+            border: "1.7px solid",
+            paddingLeft: "30px",
+          }}
+          h={"35px"}
+          p={"4px"}
+        />
       </CardSection>
 
-      <Text size="sm" color="dimmed">
-        With Fjord Tours you can explore more of the magical fjord landscapes
-        with tours and activities on and around the fjords of Norway
-      </Text>
-
-      <Button variant="light" color="blue" fullWidth mt="md" radius="md">
-        Book classic tour now
-      </Button>
+      <CardSection>
+        <Button
+          bg={"#59C3C3"}
+          color="cyan"
+          radius="xl"
+          size="lg"
+          w={"100%"}
+          mt={"10%"}
+        >
+          Sign in
+        </Button>
+        <Button
+          variant="outline"
+          color="cyan"
+          radius="xl"
+          size="lg"
+          w={"100%"}
+          mt={"5%"}
+        >
+          Sign up
+        </Button>
+        <Button
+          variant="subtle"
+          color="gray"
+          radius="xl"
+          size="md"
+          mt={"4%"}
+          p={"0"}
+          style={{ textDecoration: "underline" }}
+        >
+          Forgot your password?
+        </Button>
+      </CardSection>
     </Card>
   );
 }
