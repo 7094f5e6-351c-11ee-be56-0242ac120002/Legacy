@@ -4,11 +4,13 @@ import { IconKey } from "@tabler/icons-react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useHover } from "@mantine/hooks";
 
 function LoginCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { hovered, ref } = useHover();
 
   const handleLogin = async () => {
     setEmail("");
@@ -32,6 +34,7 @@ function LoginCard() {
 
   return (
     <Card
+      ref={ref}
       bg={"none"}
       shadow="sm"
       padding="md"
@@ -135,7 +138,11 @@ function LoginCard() {
           size="md"
           mt={"4%"}
           p={"0"}
-          style={{ textDecoration: "underline" }}
+          style={{
+            textDecoration: "underline",
+            backgroundColor: hovered ? "#141126" : "#141126",
+            borderColor: hovered ? "#141126" : "#141126",
+          }}
         >
           Forgot your password?
         </Button>
