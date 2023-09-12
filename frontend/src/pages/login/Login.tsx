@@ -18,11 +18,11 @@ const Login = () => {
     const timer = setTimeout(() => {
       setEllipse1Position({
         top: "190px",
-        left: "85%",
+        left: "90%",
       });
       setEllipse2Position({
         top: "130px",
-        left: "135%",
+        left: "130%",
       });
     }, 5000);
 
