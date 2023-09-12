@@ -21,16 +21,45 @@ const Login = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          position: "relative",
         }}
       >
+        {/* Ellipse 1 */}
+        <div
+          style={{
+            width: "380px",
+            height: "380px",
+            top: "-120px",
+            left: "145%",
+            backgroundColor: "#52489C",
+            borderRadius: "50%",
+            position: "absolute",
+            overflow: "hidden",
+          }}
+        ></div>
+
+        {/* Ellipse 2 */}
+        <div
+          style={{
+            width: "254px",
+            height: "254px",
+            top: "90px",
+            left: "175%",
+            backgroundColor: "#4062BB",
+            borderRadius: "50%",
+            position: "absolute",
+            zIndex: 2, // Set z-index to 2 to place it in front of Ellipse 1
+            overflow: "hidden",
+          }}
+        ></div>
         <LoginCard />
         <div>
           <div
             style={{
               position: "absolute",
-              top: "60px",
-              right: "160px",
-              width: "50px",
+              top: "45px",
+              right: "-450px",
+              width: "35px",
               height: "auto",
               zIndex: 1,
               display: "flex",
@@ -40,12 +69,14 @@ const Login = () => {
             <img alt="logo" src={logo} />
             <div
               style={{
-                fontSize: "25px",
+                fontSize: "35px",
                 fontWeight: "500",
                 fontFamily: "Lexend Giga",
+                marginLeft: "5px",
+                letterSpacing: "-2px",
               }}
             >
-              Taskify
+              Task<span style={{ color: "#59C3C3" }}>ify</span>
             </div>
           </div>
         </div>
