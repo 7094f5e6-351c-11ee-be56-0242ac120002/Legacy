@@ -2,8 +2,33 @@ import { MantineProvider } from "@mantine/core";
 import LoginCard from "../../components/login-card/LoginCard";
 import logo from "../../assets/logo.svg";
 import "./Login.scoped.css";
+import { useState, useEffect } from "react";
 
 const Login = () => {
+  const [ellipse1Position, setEllipse1Position] = useState({
+    top: "-120px",
+    left: "145%",
+  });
+  const [ellipse2Position, setEllipse2Position] = useState({
+    top: "90px",
+    left: "175%",
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setEllipse1Position({
+        top: "190px",
+        left: "85%",
+      });
+      setEllipse2Position({
+        top: "130px",
+        left: "135%",
+      });
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <MantineProvider
       theme={{
@@ -16,7 +41,7 @@ const Login = () => {
       <div
         style={{
           backgroundColor: "var(--colors-background)",
-          minHeight: "100vh", //
+          minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -27,14 +52,15 @@ const Login = () => {
         {/* Ellipse 1 */}
         <div
           style={{
+            top: ellipse1Position.top,
+            left: ellipse1Position.left,
             width: "380px",
             height: "380px",
-            top: "-120px",
-            left: "145%",
             backgroundColor: "#52489C",
             borderRadius: "50%",
             position: "absolute",
             overflow: "hidden",
+            transition: "all 1.4s ease-in-out",
           }}
         ></div>
 
@@ -43,13 +69,14 @@ const Login = () => {
           style={{
             width: "254px",
             height: "254px",
-            top: "90px",
-            left: "175%",
             backgroundColor: "#4062BB",
             borderRadius: "50%",
             position: "absolute",
-            zIndex: 2, // Set z-index to 2 to place it in front of Ellipse 1
+            zIndex: 2,
             overflow: "hidden",
+            transition: "all 1.4s ease-in-out",
+            top: ellipse2Position.top,
+            left: ellipse2Position.left,
           }}
         ></div>
         <LoginCard />
