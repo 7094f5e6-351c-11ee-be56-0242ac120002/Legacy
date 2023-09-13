@@ -121,7 +121,7 @@ function LoginCard() {
           mt={"10%"}
           onClick={handleLogin}
         >
-          Sign in
+          <Text style={{ textAlign: "center" }}>Sign in</Text>
         </Button>
         <Button
           variant="outline"
@@ -131,7 +131,7 @@ function LoginCard() {
           w={"100%"}
           mt={"5%"}
         >
-          Sign up
+          <Text style={{ textAlign: "center" }}>Sign up</Text>
         </Button>
         <Button
           variant="subtle"
