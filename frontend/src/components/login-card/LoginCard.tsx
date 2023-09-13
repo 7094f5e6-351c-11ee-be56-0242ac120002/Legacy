@@ -74,6 +74,7 @@ function LoginCard() {
             border: "1.7px solid",
             marginBottom: "10px",
             paddingLeft: "30px",
+            width: "90%",
           }}
           h={"35px"}
           p={"4px"}
@@ -98,6 +99,7 @@ function LoginCard() {
             borderColor: "#9A9A9A",
             border: "1.7px solid",
             paddingLeft: "30px",
+            width: "90%",
           }}
           h={"35px"}
           p={"4px"}

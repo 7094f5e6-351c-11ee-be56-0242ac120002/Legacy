@@ -1,3 +1,23 @@
+* {
+  width: 100%;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
 body {
   overflow: hidden;
+}
+
+@keyframes moveEllipses {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(380px, 375px);
+  }
 }

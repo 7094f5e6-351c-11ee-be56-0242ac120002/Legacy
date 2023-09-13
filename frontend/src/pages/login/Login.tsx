@@ -4,27 +4,32 @@ import logo from "../../assets/logo.svg";
 import "./Login.scoped.css";
 import { useState, useEffect } from "react";
 
+type EllipsePosition = {
+  top: string;
+  left: string;
+};
+
 const Login = () => {
-  const [ellipse1Position, setEllipse1Position] = useState({
-    top: "-120px",
-    left: "145%",
+  const [ellipse1Position, setEllipse1Position] = useState<EllipsePosition>({
+    top: "-109px",
+    left: "47%",
   });
-  const [ellipse2Position, setEllipse2Position] = useState({
-    top: "90px",
-    left: "175%",
+  const [ellipse2Position, setEllipse2Position] = useState<EllipsePosition>({
+    top: "85px",
+    left: "75%",
   });
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setEllipse1Position({
         top: "190px",
-        left: "90%",
+        left: "-24%",
       });
       setEllipse2Position({
-        top: "130px",
-        left: "130%",
+        top: "100px",
+        left: "15%",
       });
-    }, 5000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -40,72 +45,89 @@ const Login = () => {
     >
       <div
         style={{
-          backgroundColor: "var(--colors-background)",
-          minHeight: "100vh",
+          height: "100%",
           display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
+          flexDirection: "row",
         }}
       >
-        {/* Ellipse 1 */}
         <div
           style={{
-            top: ellipse1Position.top,
-            left: ellipse1Position.left,
-            width: "380px",
-            height: "380px",
-            backgroundColor: "#52489C",
-            borderRadius: "50%",
-            position: "absolute",
-            overflow: "hidden",
-            transition: "all 1.4s ease-in-out",
+            backgroundColor: "var(--colors-background)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            width: "100%",
           }}
-        ></div>
-
-        {/* Ellipse 2 */}
+        >
+          <LoginCard />
+        </div>
         <div
           style={{
-            width: "254px",
-            height: "254px",
-            backgroundColor: "#4062BB",
-            borderRadius: "50%",
-            position: "absolute",
-            zIndex: 2,
-            overflow: "hidden",
-            transition: "all 1.4s ease-in-out",
-            top: ellipse2Position.top,
-            left: ellipse2Position.left,
+            position: "relative",
+            height: "auto",
+            zIndex: 1,
+            display: "flex",
+            justifyContent: "right",
+            flexDirection: "row",
           }}
-        ></div>
-        <LoginCard />
-        <div>
+        >
           <div
             style={{
-              position: "absolute",
-              top: "45px",
-              right: "-450px",
-              width: "35px",
-              height: "auto",
-              zIndex: 1,
               display: "flex",
               flexDirection: "row",
+              alignItems: "center",
+              zIndex: "5",
+              height: "42px",
+              width: "24%",
+              top: "-5%",
+              marginRight: "19%",
+              marginTop: "5%",
             }}
           >
-            <img alt="logo" src={logo} />
+            <img alt="logo" src={logo} style={{ height: "30px" }} />
             <div
               style={{
-                fontSize: "35px",
+                fontSize: "30px",
                 fontWeight: "500",
                 fontFamily: "Lexend Giga",
-                marginLeft: "5px",
                 letterSpacing: "-2px",
               }}
             >
               Task<span style={{ color: "#59C3C3" }}>ify</span>
             </div>
           </div>
+          {/* Ellipse 1 */}
+          <div
+            style={{
+              top: ellipse1Position.top,
+              left: ellipse1Position.left,
+              width: "380px",
+              height: "380px",
+              backgroundColor: "#52489C",
+              borderRadius: "50%",
+              position: "absolute",
+              overflow: "hidden",
+              transition: "all 1.4s ease-in-out",
+            }}
+          ></div>
+
+          {/* Ellipse 2 */}
+          <div
+            style={{
+              width: "254px",
+              height: "254px",
+              backgroundColor: "#4062BB",
+              borderRadius: "50%",
+              position: "absolute",
+              zIndex: 2,
+              overflow: "hidden",
+              transition: "all 1.4s ease-in-out",
+              top: ellipse2Position.top,
+              left: ellipse2Position.left,
+            }}
+          ></div>
         </div>
       </div>
     </MantineProvider>
