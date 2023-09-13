@@ -20,7 +20,7 @@ const Login = () => {
   });
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const firstTimer = setTimeout(() => {
       setEllipse1Position({
         top: "190px",
         left: "-24%",
@@ -31,7 +31,45 @@ const Login = () => {
       });
     }, 1000);
 
-    return () => clearTimeout(timer);
+    const secondTimer = setTimeout(() => {
+      setEllipse1Position({
+        top: "400px",
+        left: "40%",
+      });
+      setEllipse2Position({
+        top: "420px",
+        left: "17%",
+      });
+    }, 6000);
+
+    const thirdTimer = setTimeout(() => {
+      setEllipse1Position({
+        top: "550px",
+        left: "70%",
+      });
+      setEllipse2Position({
+        top: "490px",
+        left: "80%",
+      });
+    }, 11000);
+
+    const fourthTimer = setTimeout(() => {
+      setEllipse1Position({
+        top: "-109px",
+        left: "47%",
+      });
+      setEllipse2Position({
+        top: "85px",
+        left: "75%",
+      });
+    }, 15000);
+
+    return () => {
+      clearTimeout(firstTimer);
+      clearTimeout(secondTimer);
+      clearTimeout(thirdTimer);
+      clearTimeout(fourthTimer);
+    };
   }, []);
 
   return (
