@@ -29,8 +29,8 @@ const Login = () => {
             justifyContent: "center",
             position: "relative",
             width: "50%",
-            padding: "5%",
-            margin: "5%",
+            padding: "3%",
+            margin: "8%",
           }}
         >
           <div
@@ -49,26 +49,27 @@ const Login = () => {
         <div
           style={{
             position: "relative",
-            height: "auto",
+            height: "100%",
             zIndex: 1,
             display: "flex",
-            justifyContent: "right",
-            flexDirection: "row",
-            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
-          <RegisterCard />
           <div
             style={{
               display: "flex",
+              justifyContent: "flex-start",
               flexDirection: "row",
-              alignItems: "center",
               zIndex: "5",
               height: "42px",
               width: "24%",
               top: "-5%",
-              marginRight: "19%",
+              paddingRight: "19%",
               marginTop: "5%",
+              marginLeft: "auto",
+              alignItems: "center",
+              marginBottom: "auto",
             }}
           >
             <img alt="logo" src={logo} style={{ height: "30px" }} />
@@ -83,6 +84,20 @@ const Login = () => {
               Task<span style={{ color: "#59C3C3" }}>ify</span>
             </div>
           </div>
+          <div
+            style={{
+              width: "80%",
+              margin: "0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              verticalAlign: "center",
+              zIndex: "0",
+              marginBottom: "auto",
+            }}
+          >
+            <RegisterCard />
+          </div>
           {/* Ellipse 1 */}
           <div
             style={{
@@ -93,9 +108,11 @@ const Login = () => {
               position: "absolute",
               overflow: "hidden",
               transition: "all 1.4s ease-in-out",
+              top: "320px",
+              left: "550px",
+              zIndex: "-2",
             }}
           ></div>
-
           {/* Ellipse 2 */}
           <div
             style={{
@@ -104,9 +121,11 @@ const Login = () => {
               backgroundColor: "#4062BB",
               borderRadius: "50%",
               position: "absolute",
-              zIndex: 2,
+              zIndex: "-1",
               overflow: "hidden",
               transition: "all 1.4s ease-in-out",
+              top: "550px",
+              left: "380px",
             }}
           ></div>
         </div>

@@ -15,6 +15,7 @@ function LoginCard() {
   const handleLogin = async () => {
     setEmail("");
     setPassword("");
+    setName("");
     try {
       const response = await axios.post("/api/auth/login", {
         email,
@@ -39,12 +40,12 @@ function LoginCard() {
       padding="md"
       radius="md"
       style={{
-        width: "57%",
+        width: "75%",
         gap: "60px",
         justifyContent: "center",
       }}
     >
-      <CardSection style={{ marginTop: "40px" }}>
+      <CardSection>
         <Input
           value={name}
           onChange={(e) => setName(e.target.value)}
