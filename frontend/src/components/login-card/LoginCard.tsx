@@ -124,6 +124,7 @@ function LoginCard() {
           <Text style={{ textAlign: "center" }}>Sign in</Text>
         </Button>
         <Button
+          onClick={() => navigate("/register")}
           variant="outline"
           color="cyan"
           radius="xl"

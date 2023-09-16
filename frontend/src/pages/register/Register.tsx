@@ -1,9 +1,15 @@
-import { MantineProvider } from "@mantine/core";
+import { Button, MantineProvider } from "@mantine/core";
 import RegisterCard from "../../components/register-card/RegisterCard";
 import logo from "../../assets/logo.svg";
 import "./Register.scoped.css";
+import { useState } from "react";
 
-const Login = () => {
+const Register = () => {
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+
+  const handleContinueClick = () => {
+    setIsButtonClicked(true);
+  };
   return (
     <MantineProvider
       theme={{
@@ -33,18 +39,34 @@ const Login = () => {
             margin: "8%",
           }}
         >
-          <div
-            style={{
-              fontSize: "80px",
-              fontWeight: "700",
-              lineHeight: "90px",
-              letterSpacing: "-7px",
-              color: "hite",
-            }}
-          >
-            Can't wait for <span style={{ color: "#59C3C3" }}>you</span> to join
-            us!
-          </div>
+          {isButtonClicked ? (
+            <div
+              style={{
+                fontSize: "80px",
+                fontWeight: "700",
+                lineHeight: "90px",
+                letterSpacing: "-7px",
+                color: "white",
+                zIndex: "2",
+              }}
+            >
+              Who is going to use this{" "}
+              <span style={{ color: "#59C3C3" }}>account</span>?
+            </div>
+          ) : (
+            <div
+              style={{
+                fontSize: "80px",
+                fontWeight: "700",
+                lineHeight: "90px",
+                letterSpacing: "-7px",
+                color: "white",
+              }}
+            >
+              Can't wait for <span style={{ color: "#59C3C3" }}>you</span> to
+              join us!
+            </div>
+          )}
         </div>
         <div
           style={{
@@ -96,42 +118,89 @@ const Login = () => {
               marginBottom: "auto",
             }}
           >
-            <RegisterCard />
+            <RegisterCard onContinueClick={handleContinueClick} />
           </div>
+          {isButtonClicked ? (
+            <div style={{ marginBottom: "8%", marginLeft: "70%" }}>
+              <Button bg={"#59C3C3"} c={"white"} size="lg">
+                Wrap it up
+              </Button>
+            </div>
+          ) : (
+            <div></div>
+          )}
+          {isButtonClicked ? (
+            <div>
+              {" "}
+              <div
+                style={{
+                  width: "380px",
+                  height: "380px",
+                  backgroundColor: "#52489C",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  overflow: "hidden",
+                  transition: "all 1.4s ease-in-out",
+                  top: "550px",
+                  left: "-400px",
+                  zIndex: "-5",
+                }}
+              ></div>
+              {/* Ellipse 2 */}
+              <div
+                style={{
+                  width: "254px",
+                  height: "254px",
+                  backgroundColor: "#4062BB",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  zIndex: "-1",
+                  overflow: "hidden",
+                  transition: "all 1.4s ease-in-out",
+                  top: "420px",
+                  left: "-845px",
+                }}
+              ></div>
+            </div>
+          ) : (
+            <div>
+              {" "}
+              <div
+                style={{
+                  width: "380px",
+                  height: "380px",
+                  backgroundColor: "#52489C",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  overflow: "hidden",
+                  transition: "all 1.4s ease-in-out",
+                  top: "320px",
+                  left: "550px",
+                  zIndex: "-2",
+                }}
+              ></div>
+              {/* Ellipse 2 */}
+              <div
+                style={{
+                  width: "254px",
+                  height: "254px",
+                  backgroundColor: "#4062BB",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  zIndex: "-1",
+                  overflow: "hidden",
+                  transition: "all 1.4s ease-in-out",
+                  top: "550px",
+                  left: "380px",
+                }}
+              ></div>
+            </div>
+          )}
           {/* Ellipse 1 */}
-          <div
-            style={{
-              width: "380px",
-              height: "380px",
-              backgroundColor: "#52489C",
-              borderRadius: "50%",
-              position: "absolute",
-              overflow: "hidden",
-              transition: "all 1.4s ease-in-out",
-              top: "320px",
-              left: "550px",
-              zIndex: "-2",
-            }}
-          ></div>
-          {/* Ellipse 2 */}
-          <div
-            style={{
-              width: "254px",
-              height: "254px",
-              backgroundColor: "#4062BB",
-              borderRadius: "50%",
-              position: "absolute",
-              zIndex: "-1",
-              overflow: "hidden",
-              transition: "all 1.4s ease-in-out",
-              top: "550px",
-              left: "380px",
-            }}
-          ></div>
         </div>
       </div>
     </MantineProvider>
   );
 };
 
-export default Login;
+export default Register;
