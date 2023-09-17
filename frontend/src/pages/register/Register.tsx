@@ -1,4 +1,4 @@
-import { Button, MantineProvider } from "@mantine/core";
+import { Button, Input, MantineProvider } from "@mantine/core";
 import RegisterCard from "../../components/register-card/RegisterCard";
 import logo from "../../assets/logo.svg";
 import "./Register.scoped.css";
@@ -6,10 +6,16 @@ import { useState } from "react";
 
 const Register = () => {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [isButton2Clicked, setIsButton2Clicked] = useState(false);
+  const [workspaceName, setWorkspaceName] = useState<string>("");
 
   const handleContinueClick = () => {
     setIsButtonClicked(true);
   };
+  const handleWrapClick = () => {
+    setIsButton2Clicked(true);
+  };
+
   return (
     <MantineProvider
       theme={{
@@ -39,7 +45,7 @@ const Register = () => {
             margin: "8%",
           }}
         >
-          {isButtonClicked ? (
+          {isButtonClicked && isButton2Clicked ? (
             <div
               style={{
                 fontSize: "80px",
@@ -48,6 +54,19 @@ const Register = () => {
                 letterSpacing: "-7px",
                 color: "white",
                 zIndex: "2",
+              }}
+            >
+              Now let's name your first{" "}
+              <span style={{ color: "#59C3C3" }}>Workspace</span>
+            </div>
+          ) : isButtonClicked ? (
+            <div
+              style={{
+                fontSize: "80px",
+                fontWeight: "700",
+                lineHeight: "90px",
+                letterSpacing: "-7px",
+                color: "white",
               }}
             >
               Who is going to use this{" "}
@@ -118,18 +137,97 @@ const Register = () => {
               marginBottom: "auto",
             }}
           >
-            <RegisterCard onContinueClick={handleContinueClick} />
+            {isButton2Clicked ? (
+              <Input
+                value={workspaceName}
+                onChange={(e) => setWorkspaceName(e.target.value)}
+                placeholder="First workspace"
+                variant="unstyled"
+                style={{
+                  backgroundColor: "rgba(0,0,0,76)",
+                  alignItems: "center",
+                  borderRadius: "10px",
+                  color: "#9A9A9A",
+                  borderColor: "#9A9A9A",
+                  border: "1.7px solid",
+                  marginBottom: "10px",
+                  paddingLeft: "30px",
+                  width: "75%",
+                }}
+                h={"35px"}
+                p={"4px"}
+                styles={{
+                  input: {
+                    color: "white",
+                  },
+                }}
+              />
+            ) : (
+              <RegisterCard onContinueClick={handleContinueClick} />
+            )}
           </div>
-          {isButtonClicked ? (
+          {isButtonClicked && isButton2Clicked ? (
             <div style={{ marginBottom: "8%", marginLeft: "70%" }}>
-              <Button bg={"#59C3C3"} c={"white"} size="lg">
-                Wrap it up
+              <Button
+                onClick={handleWrapClick}
+                bg={"#59C3C3"}
+                c={"white"}
+                size="lg"
+              >
+                Finish
               </Button>
+            </div>
+          ) : isButtonClicked ? (
+            <div>
+              {" "}
+              <div style={{ marginBottom: "8%", marginLeft: "70%" }}>
+                <Button
+                  onClick={handleWrapClick}
+                  bg={"#59C3C3"}
+                  c={"white"}
+                  size="lg"
+                >
+                  Wrap it up
+                </Button>
+              </div>
             </div>
           ) : (
             <div></div>
           )}
-          {isButtonClicked ? (
+          {isButtonClicked && isButton2Clicked ? (
+            <div>
+              {" "}
+              <div
+                style={{
+                  width: "380px",
+                  height: "380px",
+                  backgroundColor: "#52489C",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  overflow: "hidden",
+                  transition: "all 1.4s ease-in-out",
+                  top: "550px",
+                  left: "-850px",
+                  zIndex: "-5",
+                }}
+              ></div>
+              {/* Ellipse 2 */}
+              <div
+                style={{
+                  width: "254px",
+                  height: "254px",
+                  backgroundColor: "#4062BB",
+                  borderRadius: "50%",
+                  position: "absolute",
+                  zIndex: "-1",
+                  overflow: "hidden",
+                  transition: "all 1.4s ease-in-out",
+                  top: "420px",
+                  left: "-930px",
+                }}
+              ></div>
+            </div>
+          ) : isButtonClicked ? (
             <div>
               {" "}
               <div
