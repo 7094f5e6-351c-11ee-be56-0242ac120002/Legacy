@@ -1,25 +1,38 @@
 using Api.Dtos.AuthDtos;
+using Application.Enums.IdentityService;
+using Application.Interfaces;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace Api.Controllers
 {
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IValidator<RegisterRequest> _validator;
-        public AuthController(IValidator<RegisterRequest> validator)
+        private readonly IValidator<RegisterRequest> _registerRequestValidator;
+        private readonly IIdentityService _identityService;
+
+        public AuthController(
+            IValidator<RegisterRequest> registerRequestValidator,
+            IIdentityService identityService)
         {
-            _validator = validator;   
+            _registerRequestValidator = registerRequestValidator;
+            _identityService = identityService;
         }
 
         [HttpPost(Routes.Auth.Register)]
-        public async Task<RegisterResponse> Register([FromBody] RegisterRequest registerRequest)
+        public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest registerRequest)
         {
-            
-            throw new NotImplementedException();    
+            await _registerRequestValidator
+                .ValidateAndThrowAsync(registerRequest);
+
+            var (status, value) = await _identityService
+                .Register(registerRequest.ToApplicationDto());
+
+            if (status is not RegistrationStatus.Registered)
+                return BadRequest();
+
+            return Ok(value!.ToDto());
         }
     }
 }
