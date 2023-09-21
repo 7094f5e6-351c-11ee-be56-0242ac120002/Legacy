@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add validators to the container.
 builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterRequestValidator>();
-
+builder.Services.AddScoped<IValidator<LoginRequest>, LoginRequestValidator>();  
 // Add services to the container.
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
