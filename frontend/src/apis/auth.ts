@@ -1,7 +1,11 @@
 import axios from "axios";
+import * as configJson from "../../config.json";
+import { AppConfig } from "./config";
 
-const BASE_URL = "https://domena.com/";
-const apiRoute = BASE_URL + "api/";
+const config: AppConfig = configJson as AppConfig;
+
+const baseUrl = config.baseUrl;
+const apiRoute = baseUrl + "api/";
 
 export const authApi = {
   login: async (email: string, password: string) => {
@@ -20,21 +24,17 @@ export const authApi = {
     return axios.post(`${apiRoute}/auth/register`, data);
   },
 
-  refreshToken: async (refreshToken: string) => {
-    return axios.post(`${apiRoute}/auth/refresh-token`, {
-      refreshToken,
-    });
+  refreshToken: async (data: { refreshToken: string }) => {
+    return axios.post(`${apiRoute}/auth/refresh-token`, data);
   },
 
-  passwordResetRequest: async (email: string) => {
+  passwordResetRequest: async (data: { email: string }) => {
     return axios.get(`${apiRoute}/auth/reset`, {
-      params: { email },
+      params: { email: data.email },
     });
   },
 
-  passwordReset: async (password: string) => {
-    return axios.post(`${apiRoute}/auth/reset`, {
-      password,
-    });
+  passwordReset: async (data: { password: string }) => {
+    return axios.post(`${apiRoute}/auth/reset`, data);
   },
 };
