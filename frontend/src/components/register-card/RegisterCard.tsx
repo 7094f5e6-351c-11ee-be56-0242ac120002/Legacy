@@ -3,19 +3,17 @@ import { IconMail } from "@tabler/icons-react";
 import { IconKey } from "@tabler/icons-react";
 import { IconUserCircle } from "@tabler/icons-react";
 import { useState } from "react";
-import axios from "axios";
-// import { useNavigate } from "react-router-dom";
-import MantineDialog from "../dialog/MantineDialog";
+import MantineDialog from "../dialog/BoardSelectionDialog";
+import colors from "../../style/colors";
+import inputStyles from "../../style/inputStyles";
+import { useForm } from "@mantine/form";
+import { authApi } from "../../apis/auth";
 
-interface RegisterCardProps {
-  onContinueClick: () => void;
-}
-
-function RegisterCard({ onContinueClick }: RegisterCardProps) {
+function RegisterCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  // const navigate = useNavigate();
+  const [surname, setSurname] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleRegister = async () => {
@@ -23,21 +21,38 @@ function RegisterCard({ onContinueClick }: RegisterCardProps) {
     setPassword("");
     setName("");
     setIsDialogOpen(true);
-    onContinueClick();
     try {
-      const response = await axios.post("/api/auth/login", {
-        email,
-        password,
+      await authApi.register({
+        firstName: name,
+        lastName: surname,
+        email: email,
+        password: password,
       });
-
-      if (response.status === 200) {
-        const { token } = response.data;
-        localStorage.setItem("token", `Bearer ${token}`);
-      }
+      console.log("Register successful");
     } catch (error) {
-      console.error("Authentication failed:", error);
+      console.log(error);
     }
   };
+
+  const form = useForm({
+    initialValues: {
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+    },
+    validate: {
+      name: (value) =>
+        value.trim() !== "" ? undefined : "First name is required",
+      surname: (value) =>
+        value.trim() !== "" ? undefined : "Last name is required",
+      email: (value) => (/^\S+@\S+$/.test(value) ? undefined : "Invalid email"),
+      password: (value) =>
+        value.length >= 6
+          ? undefined
+          : "Password must be at least 6 characters",
+    },
+  });
 
   return (
     <div style={{ position: "relative" }}>
@@ -54,81 +69,69 @@ function RegisterCard({ onContinueClick }: RegisterCardProps) {
         }}
       >
         <CardSection>
-          <Input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            icon={<IconUserCircle style={{ paddingLeft: "10px" }} />}
-            placeholder="Enter your full name"
-            variant="unstyled"
-            style={{
-              backgroundColor: "rgba(0,0,0,76)",
-              alignItems: "center",
-              borderRadius: "10px",
-              color: "#9A9A9A",
-              borderColor: "#9A9A9A",
-              border: "1.7px solid",
-              marginBottom: "10px",
-              paddingLeft: "30px",
-              width: "90%",
-            }}
-            h={"35px"}
-            p={"4px"}
-            styles={{
-              input: {
-                color: "white",
-              },
-            }}
-          />
-          <Input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            icon={<IconMail style={{ paddingLeft: "10px" }} />}
-            placeholder="Enter your email"
-            variant="unstyled"
-            style={{
-              backgroundColor: "rgba(0,0,0,76)",
-              alignItems: "center",
-              borderRadius: "10px",
-              color: "#9A9A9A",
-              borderColor: "#9A9A9A",
-              border: "1.7px solid",
-              marginBottom: "10px",
-              paddingLeft: "30px",
-              width: "90%",
-            }}
-            h={"35px"}
-            p={"4px"}
-            styles={{
-              input: {
-                color: "white",
-              },
-            }}
-          />
-          <Input
-            value={password}
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            icon={<IconKey style={{ paddingLeft: "10px" }} />}
-            placeholder="Enter your password"
-            variant="unstyled"
-            style={{
-              backgroundColor: "rgba(0,0,0,76)",
-              alignItems: "center",
-              borderRadius: "10px",
-              color: "#9A9A9A",
-              borderColor: "#9A9A9A",
-              border: "1.7px solid",
-              paddingLeft: "30px",
-              width: "90%",
-            }}
-            h={"35px"}
-            p={"4px"}
-            styles={{
-              input: {
-                color: "white",
-              },
-            }}
-          />
+          <form onSubmit={form.onSubmit((values) => console.log(values))}>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              icon={<IconUserCircle style={{ paddingLeft: "10px" }} />}
+              placeholder="Enter your first name"
+              variant="unstyled"
+              style={inputStyles.defaultInput}
+              h={"35px"}
+              p={"4px"}
+              styles={{
+                input: {
+                  color: colors.white,
+                },
+              }}
+            />
+            <Input
+              value={surname}
+              onChange={(e) => setSurname(e.target.value)}
+              icon={<IconUserCircle style={{ paddingLeft: "10px" }} />}
+              placeholder="Enter your last name"
+              variant="unstyled"
+              style={inputStyles.defaultInput}
+              h={"35px"}
+              p={"4px"}
+              styles={{
+                input: {
+                  color: colors.white,
+                },
+              }}
+            />
+            <Input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              icon={<IconMail style={{ paddingLeft: "10px" }} />}
+              placeholder="Enter your email"
+              variant="unstyled"
+              style={inputStyles.defaultInput}
+              h={"35px"}
+              p={"4px"}
+              styles={{
+                input: {
+                  color: colors.white,
+                },
+              }}
+            />
+            <Input
+              value={password}
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              icon={<IconKey style={{ paddingLeft: "10px" }} />}
+              placeholder="Enter your password"
+              variant="unstyled"
+              style={inputStyles.defaultInput}
+              h={"35px"}
+              p={"4px"}
+              styles={{
+                input: {
+                  color: colors.white,
+                },
+              }}
+            />
+          </form>
         </CardSection>
         <CardSection>
           <Button

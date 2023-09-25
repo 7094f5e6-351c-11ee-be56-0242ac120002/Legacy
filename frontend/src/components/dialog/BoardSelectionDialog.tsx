@@ -3,22 +3,26 @@ import { IconUser } from "@tabler/icons-react";
 import { IconUsersGroup } from "@tabler/icons-react";
 import { useHover } from "@mantine/hooks";
 import { useState } from "react";
+import colors from "../../style/colors";
+import textStyles from "../../style/textStyles";
 
-function MantineDialog() {
-  const [button1Clicked, setButton1Clicked] = useState(false);
-  const [button2Clicked, setButton2Clicked] = useState(false);
+enum BoardSelection {
+  Personal,
+  Team,
+  NoneSelected,
+}
 
-  const handleButton1Click = () => {
-    setButton1Clicked(!button1Clicked);
-    setButton2Clicked(false);
-  };
+function BoardSelectionDialog() {
+  const [selectedOption, setSelectedOption] = useState<BoardSelection>(
+    BoardSelection.NoneSelected
+  );
 
-  const handleButton2Click = () => {
-    setButton2Clicked(!button2Clicked);
-    setButton1Clicked(false);
+  const handleButtonClick = (option: BoardSelection) => {
+    setSelectedOption(option);
   };
 
   const { hovered, ref } = useHover();
+
   return (
     <div style={{ marginBottom: "20%" }}>
       <Card
@@ -26,7 +30,7 @@ function MantineDialog() {
         shadow="sm"
         padding="lg"
         radius="md"
-        c={"white"}
+        c={colors.white}
         mb={"auto"}
         display={"flex"}
         bg={"none"}
@@ -35,13 +39,13 @@ function MantineDialog() {
         style={{ flexDirection: "row", gap: "66px" }}
       >
         <Button
-          onClick={() => handleButton1Click()}
+          onClick={() => handleButtonClick(BoardSelection.Personal)}
           p={"0"}
           w={"180px"}
           h={"198px"}
           bg={
-            button1Clicked
-              ? "linear-gradient(106.66deg, #59C3C3 4.7%, #4062BB 149.64%)"
+            selectedOption === BoardSelection.Personal
+              ? colors.primaryGradient
               : "none"
           }
           style={{
@@ -54,32 +58,26 @@ function MantineDialog() {
                 width={"130px"}
                 height={"145px"}
                 stroke-width="1.4"
-                color={button1Clicked ? "white" : "#59C3C3"}
+                color={
+                  selectedOption === BoardSelection.Personal
+                    ? colors.white
+                    : colors.cyan
+                }
               />
             </div>
-            <Text
-              mt={"6px"}
-              style={{
-                textAlign: "center",
-                fontFamily: "Montserrat",
-                fontSize: "20px",
-                letterSpacing: "-7%",
-                fontWeight: "700",
-                lineHeight: "30px",
-              }}
-            >
+            <Text mt={"6px"} styles={textStyles.defaultButtonText}>
               Just me
             </Text>
           </div>
         </Button>
         <Button
-          onClick={() => handleButton2Click()}
+          onClick={() => handleButtonClick(BoardSelection.Team)}
           p={"0"}
           w={"180px"}
           h={"198px"}
           bg={
-            button2Clicked
-              ? "linear-gradient(106.66deg, #59C3C3 4.7%, #4062BB 149.64%)"
+            selectedOption === BoardSelection.Team
+              ? colors.primaryGradient
               : "none"
           }
         >
@@ -89,20 +87,14 @@ function MantineDialog() {
                 width={"130px"}
                 height={"145px"}
                 stroke-width="1.4"
-                color={button2Clicked ? "white" : "#59C3C3"}
+                color={
+                  selectedOption === BoardSelection.Team
+                    ? colors.white
+                    : colors.cyan
+                }
               />
             </div>
-            <Text
-              mt={"6px"}
-              style={{
-                textAlign: "center",
-                fontFamily: "Montserrat",
-                fontSize: "20px",
-                letterSpacing: "-7%",
-                fontWeight: "700",
-                lineHeight: "30px",
-              }}
-            >
+            <Text mt={"6px"} styles={textStyles.defaultButtonText}>
               Me & my team
             </Text>
           </div>
@@ -112,4 +104,4 @@ function MantineDialog() {
   );
 }
 
-export default MantineDialog;
+export default BoardSelectionDialog;

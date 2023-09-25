@@ -2,35 +2,41 @@ import { Card, Text, Button, Input, CardSection } from "@mantine/core";
 import { IconMail } from "@tabler/icons-react";
 import { IconKey } from "@tabler/icons-react";
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useHover } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
+import { authApi } from "../../apis/auth";
+import TextHighlight from "../text-highlight/TextHighlight";
+import colors from "../../style/colors";
+import inputStyles from "../../style/inputStyles";
 
 function LoginCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { hovered, ref } = useHover();
-
   const handleLogin = async () => {
-    setEmail("");
-    setPassword("");
     try {
-      const response = await axios.post("/api/auth/login", {
-        email,
-        password,
-      });
-
-      if (response.status === 200) {
-        const { token } = response.data;
-        localStorage.setItem("token", `Bearer ${token}`);
-
-        navigate("/");
-      }
+      await authApi.login({ email: email, password: password });
+      console.log("Login successful");
     } catch (error) {
-      console.error("Authentication failed:", error);
+      //
     }
   };
+
+  const form = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? undefined : "Invalid email"),
+      password: (value) =>
+        value.length >= 6
+          ? undefined
+          : "Password must be at least 6 characters",
+    },
+  });
 
   return (
     <Card
@@ -54,65 +60,50 @@ function LoginCard() {
           }}
           c={"white"}
         >
-          Nice to see <span style={{ color: "#59C3C3" }}>you</span> again!
+          Nice to see <TextHighlight color={colors.cyan}>you</TextHighlight>{" "}
+          again!
         </Text>
       </Card.Section>
 
       <CardSection style={{ marginTop: "40px" }}>
-        <Input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          icon={<IconMail style={{ paddingLeft: "10px" }} />}
-          placeholder="Enter your email"
-          variant="unstyled"
-          style={{
-            backgroundColor: "rgba(0,0,0,76)",
-            alignItems: "center",
-            borderRadius: "10px",
-            color: "#9A9A9A",
-            borderColor: "#9A9A9A",
-            border: "1.7px solid",
-            marginBottom: "10px",
-            paddingLeft: "30px",
-            width: "90%",
-          }}
-          h={"35px"}
-          p={"4px"}
-          styles={{
-            input: {
-              color: "white",
-            },
-          }}
-        />
-        <Input
-          value={password}
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          icon={<IconKey style={{ paddingLeft: "10px" }} />}
-          placeholder="Enter your password"
-          variant="unstyled"
-          style={{
-            backgroundColor: "rgba(0,0,0,76)",
-            alignItems: "center",
-            borderRadius: "10px",
-            color: "#9A9A9A",
-            borderColor: "#9A9A9A",
-            border: "1.7px solid",
-            paddingLeft: "30px",
-            width: "90%",
-          }}
-          h={"35px"}
-          p={"4px"}
-          styles={{
-            input: {
-              color: "white",
-            },
-          }}
-        />
+        <form onSubmit={form.onSubmit((values) => console.log(values))}>
+          <Input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            icon={<IconMail style={{ paddingLeft: "10px" }} />}
+            placeholder="Enter your email"
+            variant="unstyled"
+            style={inputStyles.defaultInput}
+            styles={{
+              input: {
+                color: "red",
+              },
+            }}
+            h={"35px"}
+            p={"4px"}
+          />
+          <Input
+            value={password}
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            icon={<IconKey style={{ paddingLeft: "10px" }} />}
+            placeholder="Enter your password"
+            variant="unstyled"
+            style={inputStyles.defaultInput}
+            h={"35px"}
+            p={"4px"}
+            styles={{
+              input: {
+                color: "white",
+              },
+            }}
+          />
+        </form>
       </CardSection>
 
       <CardSection>
         <Button
+          type="button"
           bg={"#59C3C3"}
           color="cyan"
           radius="xl"

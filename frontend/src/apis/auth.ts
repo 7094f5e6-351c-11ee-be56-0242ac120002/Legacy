@@ -8,11 +8,18 @@ const baseUrl = config.baseUrl;
 const apiRoute = baseUrl + "api/";
 
 export const authApi = {
-  login: async (email: string, password: string) => {
-    return axios.post(`${apiRoute}/login`, {
-      email,
-      password,
-    });
+  login: async (data: { email: string; password: string }) => {
+    try {
+      const response = await axios.post(`${apiRoute}/login`, data);
+
+      if (response.status === 200) {
+        const { token } = response.data;
+        localStorage.setItem("token", `Bearer ${token}`);
+      }
+    } catch (error) {
+      console.error("Authentication failed:", error);
+      throw error;
+    }
   },
 
   register: async (data: {
@@ -21,7 +28,17 @@ export const authApi = {
     email: string;
     password: string;
   }) => {
-    return axios.post(`${apiRoute}/auth/register`, data);
+    try {
+      const response = await axios.post(`${apiRoute}/register`, data);
+
+      if (response.status === 200) {
+        const { token } = response.data;
+        localStorage.setItem("token", `Bearer ${token}`);
+      }
+    } catch (error) {
+      console.error("Authentication failed:", error);
+      throw error;
+    }
   },
 
   refreshToken: async (data: { refreshToken: string }) => {
