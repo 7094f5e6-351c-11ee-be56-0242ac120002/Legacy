@@ -1,4 +1,5 @@
 using Api.Dtos.AuthDtos;
+using Api.Extensions;
 using Application.Enums.IdentityService;
 using Application.Interfaces;
 using FluentValidation;
@@ -11,16 +12,19 @@ namespace Api.Controllers
     {
         private readonly IValidator<RegisterRequest> _registerRequestValidator;
         private readonly IValidator<LoginRequest> _loginRequestValidator;
+        private readonly IValidator<RefreshTokenRequest> _refreshTokenRequestValidator;
         private readonly IIdentityService _identityService;
 
         public AuthController(
             IValidator<RegisterRequest> registerRequestValidator,
             IIdentityService identityService,
-            IValidator<LoginRequest> loginRequestValidator)
+            IValidator<LoginRequest> loginRequestValidator,
+            IValidator<RefreshTokenRequest> refreshTokenRequestValidator)
         {
             _registerRequestValidator = registerRequestValidator;
             _identityService = identityService;
-            _loginRequestValidator = loginRequestValidator; 
+            _loginRequestValidator = loginRequestValidator;
+            _refreshTokenRequestValidator = refreshTokenRequestValidator;   
         }
 
         [HttpPost(Routes.Auth.Register)]
@@ -42,10 +46,23 @@ namespace Api.Controllers
         {
             await _loginRequestValidator
                 .ValidateAndThrowAsync(loginRequest);
-            var (status,value) =await _identityService
+            var (status, value) = await _identityService
                 .Login(loginRequest.ToApplicationDto());
 
             if (status is not LoginStatus.Success)
+                return BadRequest();
+            return Ok(value!.ToDto());
+        }
+        [HttpPost(Routes.Auth.RefreshToken)]
+        public async Task<ActionResult<RefreshTokenResponse>> RefreshToken([FromBody] RefreshTokenRequest refreshTokenRequest)
+        {
+            await _refreshTokenRequestValidator
+                .ValidateAndThrowAsync(refreshTokenRequest);
+            string email=User.GetEmail();
+
+            var (status, value) = await _identityService
+                .RefreshToken(refreshTokenRequest.ToApplicationDto());
+            if (status is not RefreshTokenStatus.Valid)
                 return BadRequest();
             return Ok(value!.ToDto());
         }

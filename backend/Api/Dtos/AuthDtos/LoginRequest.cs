@@ -11,6 +11,6 @@ namespace Api.Dtos.AuthDtos
     [Mapper]
     public static partial class LoginRequestMapper
     {
-        public static partial UserLogin ToApplicationDto(this LoginRequest loginRequest);
+        public static partial UserLoginDto ToApplicationDto(this LoginRequest loginRequest);
     }
 }

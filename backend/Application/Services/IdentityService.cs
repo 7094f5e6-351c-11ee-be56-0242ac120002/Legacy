@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Application.Services
@@ -16,28 +17,32 @@ namespace Application.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IPasswordService _passwordService;
-        private readonly TaskifyDbContext _dbContext;
         private readonly int _iterations;
         private readonly int _hashLenght;
         private readonly int _saltLength;
+        private readonly IUserService _userService;
+        private readonly int _refreshTokenValidDays;
+        private readonly int _refreshTokenLength;
 
         public IdentityService(
             IConfiguration configuration,
             IPasswordService passwordService,
-            TaskifyDbContext dbContext)
+            IUserService userService)
         {
             _configuration = configuration;
             _passwordService = passwordService;
-            _dbContext = dbContext;
             _iterations = _configuration.GetValue<int>("Security:PasswordHashIterations");
             _hashLenght = _configuration.GetValue<int>("Security:HashLengthBytes");
             _saltLength = _configuration.GetValue<int>("Security:SaltLengthBytes");
+            _userService = userService;
+            _refreshTokenValidDays = _configuration.GetValue<int>("Identity:RefreshTokenValidDays");
+            _refreshTokenLength = _configuration.GetValue<int>("Identity:RefreshTokenLength");
         }
 
         public async Task<(RegistrationStatus Status, RegisterResult? Value)> Register(
-            UserRegister userRegisterData)
+            UserRegisterDto userRegisterData)
         {
-            if(await _dbContext.Users.AnyAsync(u => u.Email == userRegisterData.Email.ToLower()))
+            if (!await _userService.AnyUserByEmail(userRegisterData.Email))
                 return (RegistrationStatus.EmailInUseError, null);
 
             var (passwordHash, salt) = _passwordService.GeneratePassword(
@@ -45,7 +50,7 @@ namespace Application.Services
                 _iterations,
                 _hashLenght,
                 _saltLength);
-
+            var refreshToken = GenerateRefreshToken();
             var user = new User
             {
                 Email = userRegisterData.Email.ToLower(),
@@ -53,33 +58,34 @@ namespace Application.Services
                 LastName = userRegisterData.LastName,
                 Password = passwordHash,
                 Salt = salt,
+                RefreshToken = refreshToken,
+                RefreshTokenCreated = DateTime.UtcNow   
             };
 
             try
             {
-                _dbContext.Users.Add(user);
-                await _dbContext.SaveChangesAsync();
+                _userService.AddUser(user); 
             }
             catch (Exception)
             {
                 return (RegistrationStatus.UnhandledError, null);
             }
 
-            var jwt = GenerateJwt(user.Id, $"{userRegisterData.FirstName} {userRegisterData.LastName}", user.Email);
-
+            var jwt = GenerateJwt(user.Id, user.FullName, user.Email);
+            
             return (
                 RegistrationStatus.Registered,
                 new RegisterResult
                 {
                     JWT = jwt,
-                    RefreshToken = "",
+                    RefreshToken = refreshToken,
                 });
         }
 
         public async Task<(LoginStatus Status, LoginResult? Value)> Login(
-            UserLogin userLoginData)
+            UserLoginDto userLoginData)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == userLoginData.Email.ToLower());
+            var user = await _userService.GetUserByEmail(userLoginData.Email);
 
             if (user is null)
                 return (LoginStatus.UnknownEmailError, null);
@@ -91,18 +97,46 @@ namespace Application.Services
                 _hashLenght,
                 user.Salt);
 
-            if(passwordComparasionResult is false)
+            if (passwordComparasionResult is false)
                 return (LoginStatus.InvalidPasswordError, null);
 
-            var jwt = GenerateJwt(user.Id, $"{user.FirstName} {user.LastName}", user.Email);
+            var jwt = GenerateJwt(user.Id, user.FullName, user.Email);
+            var refreshToken = GenerateRefreshToken();
 
             return (
                 LoginStatus.Success,
                 new LoginResult
                 {
                     JWT = jwt,
-                    RefreshToken = "",
+                    RefreshToken = refreshToken,
                 });
+        }
+        public async Task<(RefreshTokenStatus Status, RefreshTokenResult? Value)> RefreshToken(RefreshTokenDto refreshTokenData)
+        {
+            var user = await _userService.GetUserByEmail(refreshTokenData.Email);
+
+            if (user is null)
+                return (RefreshTokenStatus.NoEmail, null);
+
+            if (user.RefreshTokenCreated.AddDays(_refreshTokenValidDays) > DateTime.UtcNow)
+                return (RefreshTokenStatus.Expired, null);
+
+            var userRefreshTokenBytes = Encoding.UTF8.GetBytes(user.RefreshToken);
+            var dataRefreshTokenBytes = Encoding.UTF8.GetBytes(refreshTokenData.RefreshToken);
+
+            if (!CryptographicOperations.FixedTimeEquals(userRefreshTokenBytes, dataRefreshTokenBytes))
+                return (RefreshTokenStatus.Invalid, null);
+
+            var refreshToken = GenerateRefreshToken();
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenCreated = DateTime.UtcNow;
+            _userService.UpdateUser(user);  
+            return (RefreshTokenStatus.Valid, new RefreshTokenResult
+            {
+                RefreshToken = refreshToken,
+                Jwt = GenerateJwt(user.Id, user.FullName, user.Email),
+            });
+
         }
 
         private string GenerateJwt(
@@ -137,5 +171,12 @@ namespace Application.Services
 
             return jwt;
         }
+        private string GenerateRefreshToken()
+        {
+            var randomNumber = RandomNumberGenerator.GetBytes(_refreshTokenLength);
+
+            return Convert.ToBase64String(randomNumber);
+        }
+
     }
 }

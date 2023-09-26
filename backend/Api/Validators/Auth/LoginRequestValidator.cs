@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Api.Validators.Auth
 {
-    public class LoginRequestValidator:AbstractValidator<LoginRequest>
+    public class LoginRequestValidator : AbstractValidator<LoginRequest>
     {
         public LoginRequestValidator()
         {
