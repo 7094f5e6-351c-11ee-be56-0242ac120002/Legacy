@@ -9,7 +9,11 @@ import inputStyles from "../../style/inputStyles";
 import { useForm } from "@mantine/form";
 import { authApi } from "../../apis/auth";
 
-function RegisterCard() {
+interface RegisterCardProps {
+  onContinueClick: () => void;
+}
+
+function RegisterCard({ onContinueClick }: RegisterCardProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -21,6 +25,7 @@ function RegisterCard() {
     setPassword("");
     setName("");
     setIsDialogOpen(true);
+    onContinueClick();
     try {
       await authApi.register({
         firstName: name,
@@ -141,6 +146,7 @@ function RegisterCard() {
             size="lg"
             w={"100%"}
             mt={"10%"}
+            z-Index={"2"}
             onClick={handleRegister}
           >
             <Text style={{ textAlign: "center" }}>Continue</Text>

@@ -5,16 +5,13 @@ import "./Register.scoped.css";
 import { useState } from "react";
 
 const Register = () => {
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
-  const [isButton2Clicked, setIsButton2Clicked] = useState(false);
+  enum RegisterStep {
+    BasicInfo,
+    Usage,
+    BoardName,
+  }
   const [workspaceName, setWorkspaceName] = useState<string>("");
-
-  const handleContinueClick = () => {
-    setIsButtonClicked(true);
-  };
-  const handleWrapClick = () => {
-    setIsButton2Clicked(true);
-  };
+  const [step, setStep] = useState<RegisterStep>(RegisterStep.BasicInfo);
 
   return (
     <MantineProvider
@@ -186,6 +183,7 @@ const Register = () => {
                   bg={"#59C3C3"}
                   c={"white"}
                   size="lg"
+                  z-Index="2"
                 >
                   Wrap it up
                 </Button>
@@ -294,7 +292,6 @@ const Register = () => {
               ></div>
             </div>
           )}
-          {/* Ellipse 1 */}
         </div>
       </div>
     </MantineProvider>

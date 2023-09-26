@@ -16,6 +16,8 @@ function LoginCard() {
   const navigate = useNavigate();
   const { hovered, ref } = useHover();
   const handleLogin = async () => {
+    setPassword("");
+    setEmail("");
     try {
       await authApi.login({ email: email, password: password });
       console.log("Login successful");
@@ -76,11 +78,12 @@ function LoginCard() {
             style={inputStyles.defaultInput}
             styles={{
               input: {
-                color: "red",
+                color: colors.white,
               },
             }}
             h={"35px"}
             p={"4px"}
+            error={form.errors.email}
           />
           <Input
             value={password}
@@ -94,9 +97,10 @@ function LoginCard() {
             p={"4px"}
             styles={{
               input: {
-                color: "white",
+                color: colors.white,
               },
             }}
+            error={form.errors.password}
           />
         </form>
       </CardSection>
