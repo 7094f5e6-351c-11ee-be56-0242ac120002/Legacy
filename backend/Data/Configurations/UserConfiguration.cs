@@ -24,8 +24,7 @@ namespace Data.Configurations
             builder.HasIndex(x => x.Email)
                 .IsUnique();
 
-
-
+            builder.Ignore(x => x.FullName);
         }
     }
 }

@@ -14,6 +14,6 @@ namespace Api.Dtos.AuthDtos
     [Mapper]
     public static partial class RegisterRequestMapper
     {
-        public static partial UserRegister ToApplicationDto(this RegisterRequest registerRequest);
+        public static partial UserRegisterDto ToApplicationDto(this RegisterRequest registerRequest);
     }
 }

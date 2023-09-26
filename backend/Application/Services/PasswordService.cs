@@ -17,7 +17,7 @@ namespace Application.Services
 
             var hash = pbkdf2.GetBytes(hashLengthBytes);
 
-            return(PasswordHash: hash, PasswordSalt: salt);
+            return (PasswordHash: hash, PasswordSalt: salt);
         }
 
         public bool ComparePassword(
