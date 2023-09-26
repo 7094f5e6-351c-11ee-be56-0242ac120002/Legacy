@@ -2,16 +2,51 @@ import { Button, Input, MantineProvider } from "@mantine/core";
 import RegisterCard from "../../components/register-card/RegisterCard";
 import logo from "../../assets/logo.svg";
 import "./Register.scoped.css";
-import { useState } from "react";
+import { useReducer, useState } from "react";
 
 const Register = () => {
   enum RegisterStep {
-    BasicInfo,
-    Usage,
-    BoardName,
+    BasicInfo = 0,
+    Usage = 1,
+    BoardName = 2,
   }
-  const [workspaceName, setWorkspaceName] = useState<string>("");
-  const [step, setStep] = useState<RegisterStep>(RegisterStep.BasicInfo);
+
+  enum ReducerAction {
+    Next,
+    Previous,
+  }
+
+  type ReducerState = {
+    step: RegisterStep;
+    workspaceName: string | null;
+  };
+
+  const stepReducer = (
+    currentState: ReducerState,
+    action: {
+      type: ReducerAction;
+      data: { workspaceName: string | null };
+    }
+  ): ReducerState => {
+    if (action.type === ReducerAction.Next) {
+      return {
+        step: currentState.step++,
+        workspaceName: action.data.workspaceName,
+      };
+    }
+    if (action.type === ReducerAction.Previous) {
+      return {
+        step: currentState.step--,
+        workspaceName: null,
+      };
+    }
+    throw new Error("Invalid ReducerAction.");
+  };
+
+  const [currentState, dispatch] = useReducer(stepReducer, {
+    step: RegisterStep.BasicInfo,
+    workspaceName: null,
+  });
 
   return (
     <MantineProvider
@@ -160,7 +195,12 @@ const Register = () => {
                 }}
               />
             ) : (
-              <RegisterCard onContinueClick={handleContinueClick} />
+              <RegisterCard
+                onContinueClick={dispatch({
+                  type: ReducerAction.Next,
+                  data: { workspaceName: "someWorkspaceName..." },
+                })}
+              />
             )}
           </div>
           {isButtonClicked && isButton2Clicked ? (
