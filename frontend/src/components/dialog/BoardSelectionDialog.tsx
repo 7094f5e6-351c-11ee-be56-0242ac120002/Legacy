@@ -52,7 +52,13 @@ function BoardSelectionDialog() {
             border: hovered ? "0px" : "0px",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              textAlign: "center",
+            }}
+          >
             <div style={{ height: "80%" }}>
               <IconUser
                 width={"130px"}
@@ -81,7 +87,13 @@ function BoardSelectionDialog() {
               : "none"
           }
         >
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              textAlign: "center",
+            }}
+          >
             <div style={{ height: "80%" }}>
               <IconUsersGroup
                 width={"130px"}

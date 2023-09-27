@@ -3,17 +3,16 @@ import { IconMail } from "@tabler/icons-react";
 import { IconKey } from "@tabler/icons-react";
 import { IconUserCircle } from "@tabler/icons-react";
 import { useState } from "react";
-import MantineDialog from "../dialog/BoardSelectionDialog";
 import colors from "../../style/colors";
 import inputStyles from "../../style/inputStyles";
 import { useForm } from "@mantine/form";
 import { authApi } from "../../apis/auth";
 
 interface RegisterCardProps {
-  onContinueClick: () => void;
+  handleNextStep: (workspaceName: string | null) => void;
 }
 
-function RegisterCard({ onContinueClick }: RegisterCardProps) {
+function RegisterCard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -25,7 +24,6 @@ function RegisterCard({ onContinueClick }: RegisterCardProps) {
     setPassword("");
     setName("");
     setIsDialogOpen(true);
-    onContinueClick();
     try {
       await authApi.register({
         firstName: name,
@@ -153,11 +151,6 @@ function RegisterCard({ onContinueClick }: RegisterCardProps) {
           </Button>
         </CardSection>
       </Card>
-      {isDialogOpen && (
-        <div>
-          <MantineDialog />
-        </div>
-      )}
     </div>
   );
 }
