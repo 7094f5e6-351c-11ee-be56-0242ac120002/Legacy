@@ -59,12 +59,12 @@ namespace Application.Services
                 Password = passwordHash,
                 Salt = salt,
                 RefreshToken = refreshToken,
-                RefreshTokenCreated = DateTime.UtcNow   
+                RefreshTokenCreated = DateTime.UtcNow,   
             };
 
             try
             {
-                _userService.AddUser(user); 
+                await _userService.AddUser(user); 
             }
             catch (Exception)
             {
@@ -130,7 +130,7 @@ namespace Application.Services
             var refreshToken = GenerateRefreshToken();
             user.RefreshToken = refreshToken;
             user.RefreshTokenCreated = DateTime.UtcNow;
-            _userService.UpdateUser(user);  
+            await _userService.UpdateUser(user);  
             return (RefreshTokenStatus.Valid, new RefreshTokenResult
             {
                 RefreshToken = refreshToken,
