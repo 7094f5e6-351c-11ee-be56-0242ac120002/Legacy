@@ -25,6 +25,7 @@ namespace Application.Services
             _taskifyDbContext.Users.Update(user); 
             await _taskifyDbContext.SaveChangesAsync(); 
         }
+
         public async Task AddUser(User user)
         {
             _taskifyDbContext.Users.Add(user);

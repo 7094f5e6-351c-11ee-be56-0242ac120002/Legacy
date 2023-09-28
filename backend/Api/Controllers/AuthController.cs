@@ -24,7 +24,7 @@ namespace Api.Controllers
             _registerRequestValidator = registerRequestValidator;
             _identityService = identityService;
             _loginRequestValidator = loginRequestValidator;
-            _refreshTokenRequestValidator = refreshTokenRequestValidator;   
+            _refreshTokenRequestValidator = refreshTokenRequestValidator;
         }
 
         [HttpPost(Routes.Auth.Register)]
@@ -41,6 +41,7 @@ namespace Api.Controllers
 
             return Ok(value!.ToDto());
         }
+
         [HttpPost(Routes.Auth.Login)]
         public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest loginRequest)
         {
@@ -53,17 +54,22 @@ namespace Api.Controllers
                 return BadRequest();
             return Ok(value!.ToDto());
         }
+
         [HttpPost(Routes.Auth.RefreshToken)]
         public async Task<ActionResult<RefreshTokenResponse>> RefreshToken([FromBody] RefreshTokenRequest refreshTokenRequest)
         {
             await _refreshTokenRequestValidator
                 .ValidateAndThrowAsync(refreshTokenRequest);
-            string email=User.GetEmail();
+
+            var email = User.GetEmail();
+            var mappedRequest = refreshTokenRequest.ToApplicationDto(email);
 
             var (status, value) = await _identityService
-                .RefreshToken(refreshTokenRequest.ToApplicationDto());
+                .RefreshToken(mappedRequest);
+
             if (status is not RefreshTokenStatus.Valid)
                 return BadRequest();
+
             return Ok(value!.ToDto());
         }
     }
