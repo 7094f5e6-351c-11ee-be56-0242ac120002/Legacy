@@ -6,7 +6,7 @@ namespace Application.Interfaces
     {
         public Task<User?> GetUserByEmail(string email);
         public Task<bool> AnyUserByEmail(string email);
-        Task UpdateUser(User user);
-        Task AddUser(User user);
+        public Task UpdateUser(User user);
+        public Task AddUser(User user);
     }
 }

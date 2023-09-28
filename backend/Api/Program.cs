@@ -13,9 +13,10 @@ builder.Services.AddScoped<IValidator<RegisterRequest>, RegisterRequestValidator
 builder.Services.AddScoped<IValidator<LoginRequest>, LoginRequestValidator>();
 builder.Services.AddScoped<IValidator<RefreshTokenRequest>, RefreshTokenRequestValidator>();
 // Add services to the container.
+builder.Services.AddScoped<IUserService, UserService>();  
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
-builder.Services.AddScoped<IUserService, UserService>();    
+  
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<TaskifyDbContext>(options =>
