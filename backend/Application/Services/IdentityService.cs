@@ -42,7 +42,7 @@ namespace Application.Services
         public async Task<(RegistrationStatus Status, RegisterResult? Value)> Register(
             UserRegisterDto userRegisterData)
         {
-            if (!await _userService.AnyUserByEmail(userRegisterData.Email))
+            if (await _userService.AnyUserByEmail(userRegisterData.Email))
                 return (RegistrationStatus.EmailInUseError, null);
 
             var (passwordHash, salt) = _passwordService.GeneratePassword(
@@ -50,7 +50,9 @@ namespace Application.Services
                 _iterations,
                 _hashLenght,
                 _saltLength);
+
             var refreshToken = GenerateRefreshToken();
+
             var user = new User
             {
                 Email = userRegisterData.Email.ToLower(),
@@ -85,7 +87,7 @@ namespace Application.Services
         public async Task<(LoginStatus Status, LoginResult? Value)> Login(
             UserLoginDto userLoginData)
         {
-            var user = await _userService.GetUserByEmail(userLoginData.Email);
+            var user = await _userService.GetUserByEmail(userLoginData.Email.ToLower());
 
             if (user is null)
                 return (LoginStatus.UnknownEmailError, null);
@@ -103,6 +105,11 @@ namespace Application.Services
             var jwt = GenerateJwt(user.Id, user.FullName, user.Email);
             var refreshToken = GenerateRefreshToken();
 
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenCreated = DateTime.UtcNow;
+
+            _userService.UpdateUser(user);
+
             return (
                 LoginStatus.Success,
                 new LoginResult
@@ -111,6 +118,7 @@ namespace Application.Services
                     RefreshToken = refreshToken,
                 });
         }
+
         public async Task<(RefreshTokenStatus Status, RefreshTokenResult? Value)> RefreshToken(RefreshTokenDto refreshTokenData)
         {
             var user = await _userService.GetUserByEmail(refreshTokenData.Email);
@@ -118,7 +126,7 @@ namespace Application.Services
             if (user is null)
                 return (RefreshTokenStatus.NoEmail, null);
 
-            if (user.RefreshTokenCreated.AddDays(_refreshTokenValidDays) > DateTime.UtcNow)
+            if (user.RefreshTokenCreated.AddDays(_refreshTokenValidDays) < DateTime.UtcNow)
                 return (RefreshTokenStatus.Expired, null);
 
             var userRefreshTokenBytes = Encoding.UTF8.GetBytes(user.RefreshToken);

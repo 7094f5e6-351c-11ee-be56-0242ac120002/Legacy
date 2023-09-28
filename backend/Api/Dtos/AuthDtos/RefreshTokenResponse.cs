@@ -5,7 +5,7 @@ namespace Api.Dtos.AuthDtos
 {
     public class RefreshTokenResponse
     {
-        public string JWT { get; init; } = null!;
+        public string Jwt { get; init; } = null!;
         public string RefreshToken { get; init; } = null!;
     }
     [Mapper]
