@@ -2,12 +2,22 @@ import { MantineProvider, Button, Input } from "@mantine/core";
 import logo from "../../assets/logo.svg";
 import TextHighlight from "../text-highlight/TextHighlight";
 import colors from "../../style/colors";
+import { ReducerAction } from "../../pages/register/Register";
+import { useState } from "react";
 
-interface BoardNameProps {
-  handleNextStep: (workspaceName: string | null) => void;
-}
+type BoardNameProps =
+  React.Dispatch{
+    type: ReducerAction;
+    data: {
+        workspaceName: string | null;
+    };
 
-export default function BoardName({ handleNextStep }: BoardNameProps) {
+
+
+  function BoardName({ handleNextStep }:{handleNextStep: BoardNameProps}) {
+
+  const [workspaceName, setWorkspaceName] = useState("");
+
   return (
     <MantineProvider
       theme={{
@@ -104,8 +114,8 @@ export default function BoardName({ handleNextStep }: BoardNameProps) {
           >
             <div>
               <Input
-                // value={workspaceName}
-                // onChange={(e) => setWorkspaceName(e.target.value)}
+                value={workspaceName}
+                onChange={(e) => setWorkspaceName(e.target.value)}
                 placeholder="First workspace"
                 variant="unstyled"
                 style={{
@@ -142,7 +152,7 @@ export default function BoardName({ handleNextStep }: BoardNameProps) {
                   c={colors.white}
                   size="lg"
                   z-Index="2"
-                  onClick={() => handleNextStep("someWorkspaceName...")}
+                  onClick={() => handleNextStep({type:ReducerAction.Next, data: {workspaceName} })}
                 >
                   Finish
                 </Button>
