@@ -47,11 +47,13 @@ namespace Api.Controllers
         {
             await _loginRequestValidator
                 .ValidateAndThrowAsync(loginRequest);
+
             var (status, value) = await _identityService
                 .Login(loginRequest.ToApplicationDto());
 
             if (status is not LoginStatus.Success)
                 return BadRequest();
+
             return Ok(value!.ToDto());
         }
 
@@ -61,8 +63,7 @@ namespace Api.Controllers
             await _refreshTokenRequestValidator
                 .ValidateAndThrowAsync(refreshTokenRequest);
 
-            var email = User.GetEmail();
-            var mappedRequest = refreshTokenRequest.ToApplicationDto(email);
+            var mappedRequest = refreshTokenRequest.ToApplicationDto(User.GetEmail());
 
             var (status, value) = await _identityService
                 .RefreshToken(mappedRequest);

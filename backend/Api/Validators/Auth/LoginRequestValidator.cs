@@ -8,8 +8,12 @@ namespace Api.Validators.Auth
         public LoginRequestValidator()
         {
             RuleFor(r => r.Email)
-            .NotEmpty()
-            .EmailAddress();
+                .NotEmpty()
+                .EmailAddress();
+
+            RuleFor(r => r.Password)
+                .NotEmpty()
+                .NotNull();
         }
     }
 }

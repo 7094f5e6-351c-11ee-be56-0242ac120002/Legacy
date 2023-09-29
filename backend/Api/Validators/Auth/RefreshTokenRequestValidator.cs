@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Api.Validators.Auth
 {
-    public class RefreshTokenRequestValidator:AbstractValidator<RefreshTokenRequest>
+    public class RefreshTokenRequestValidator : AbstractValidator<RefreshTokenRequest>
     {
         public RefreshTokenRequestValidator()
         {

@@ -10,6 +10,18 @@ namespace Api.Validators.Auth
             RuleFor(r => r.Email)
                 .NotEmpty()
                 .EmailAddress();
+
+            RuleFor(r => r.Password)
+                .NotEmpty()
+                .NotNull();
+
+            RuleFor(r => r.FirstName)
+                .NotEmpty()
+                .NotNull();
+
+            RuleFor(r => r.LastName)
+                .NotEmpty()
+                .NotNull();
         }
     }
 }

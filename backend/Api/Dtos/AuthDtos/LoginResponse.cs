@@ -5,9 +5,10 @@ namespace Api.Dtos.AuthDtos
 {
     public class LoginResponse
     {
-        public string JWT { get; init; } = null!;
+        public string Jwt { get; init; } = null!;
         public string RefreshToken { get; init; } = null!;
     }
+
     [Mapper]
     public static partial class LoginResponseMapper
     {
