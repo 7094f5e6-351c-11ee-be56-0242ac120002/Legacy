@@ -13,7 +13,11 @@ namespace Application.Services
         {
             var salt = RandomNumberGenerator.GetBytes(saltLengthBytes);
 
-            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA512);
+            var pbkdf2 = new Rfc2898DeriveBytes(
+                password,
+                salt,
+                iterations,
+                HashAlgorithmName.SHA512);
 
             var hash = pbkdf2.GetBytes(hashLengthBytes);
 
@@ -27,7 +31,11 @@ namespace Application.Services
             int hashLengthBytes,
             byte[] salt)
         {
-            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA512);
+            var pbkdf2 = new Rfc2898DeriveBytes(
+                password,
+                salt,
+                iterations,
+                HashAlgorithmName.SHA512);
 
             var computedHash = pbkdf2.GetBytes(hashLengthBytes);
 

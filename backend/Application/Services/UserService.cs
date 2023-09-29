@@ -12,6 +12,7 @@ namespace Application.Services
         {
             _taskifyDbContext = taskifyDbContext;
         }
+
         public Task<bool> AnyUserByEmail(string email) => _taskifyDbContext.Users
             .AsNoTracking()
             .AnyAsync(x => x.Email == email.ToLower());
@@ -22,15 +23,14 @@ namespace Application.Services
 
         public async Task UpdateUser(User user)
         {
-            _taskifyDbContext.Users.Update(user); 
-            await _taskifyDbContext.SaveChangesAsync(); 
+            _taskifyDbContext.Users.Update(user);
+            await _taskifyDbContext.SaveChangesAsync();
         }
 
         public async Task AddUser(User user)
         {
             _taskifyDbContext.Users.Add(user);
             await _taskifyDbContext.SaveChangesAsync();
-               
         }
 
     }

@@ -1,9 +1,7 @@
 using Application.Dtos.IdentityService;
 using Application.Enums.IdentityService;
 using Application.Interfaces;
-using Data.Context;
 using Data.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,7 +16,7 @@ namespace Application.Services
         private readonly IConfiguration _configuration;
         private readonly IPasswordService _passwordService;
         private readonly int _iterations;
-        private readonly int _hashLenght;
+        private readonly int _hashLength;
         private readonly int _saltLength;
         private readonly IUserService _userService;
         private readonly int _refreshTokenValidDays;
@@ -32,7 +30,7 @@ namespace Application.Services
             _configuration = configuration;
             _passwordService = passwordService;
             _iterations = _configuration.GetValue<int>("Security:PasswordHashIterations");
-            _hashLenght = _configuration.GetValue<int>("Security:HashLengthBytes");
+            _hashLength = _configuration.GetValue<int>("Security:HashLengthBytes");
             _saltLength = _configuration.GetValue<int>("Security:SaltLengthBytes");
             _userService = userService;
             _refreshTokenValidDays = _configuration.GetValue<int>("Identity:RefreshTokenValidDays");
@@ -48,7 +46,7 @@ namespace Application.Services
             var (passwordHash, salt) = _passwordService.GeneratePassword(
                 userRegisterData.Password,
                 _iterations,
-                _hashLenght,
+                _hashLength,
                 _saltLength);
 
             var refreshToken = GenerateRefreshToken();
@@ -61,25 +59,28 @@ namespace Application.Services
                 Password = passwordHash,
                 Salt = salt,
                 RefreshToken = refreshToken,
-                RefreshTokenCreated = DateTime.UtcNow,   
+                RefreshTokenCreated = DateTime.UtcNow,
             };
 
             try
             {
-                await _userService.AddUser(user); 
+                await _userService.AddUser(user);
             }
             catch (Exception)
             {
                 return (RegistrationStatus.UnhandledError, null);
             }
 
-            var jwt = GenerateJwt(user.Id, user.FullName, user.Email);
-            
+            var Jwt = GenerateJwt(
+                user.Id,
+                user.FullName,
+                user.Email);
+
             return (
                 RegistrationStatus.Registered,
                 new RegisterResult
                 {
-                    JWT = jwt,
+                    Jwt = Jwt,
                     RefreshToken = refreshToken,
                 });
         }
@@ -87,7 +88,7 @@ namespace Application.Services
         public async Task<(LoginStatus Status, LoginResult? Value)> Login(
             UserLoginDto userLoginData)
         {
-            var user = await _userService.GetUserByEmail(userLoginData.Email.ToLower());
+            var user = await _userService.GetUserByEmail(userLoginData.Email);
 
             if (user is null)
                 return (LoginStatus.UnknownEmailError, null);
@@ -96,25 +97,28 @@ namespace Application.Services
                 userLoginData.Password,
                 user.Password,
                 _iterations,
-                _hashLenght,
+                _hashLength,
                 user.Salt);
 
             if (passwordComparasionResult is false)
                 return (LoginStatus.InvalidPasswordError, null);
 
-            var jwt = GenerateJwt(user.Id, user.FullName, user.Email);
+            var Jwt = GenerateJwt(
+                user.Id,
+                user.FullName,
+                user.Email);
             var refreshToken = GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
             user.RefreshTokenCreated = DateTime.UtcNow;
 
-            _userService.UpdateUser(user);
+            await _userService.UpdateUser(user);
 
             return (
                 LoginStatus.Success,
                 new LoginResult
                 {
-                    JWT = jwt,
+                    Jwt = Jwt,
                     RefreshToken = refreshToken,
                 });
         }
@@ -136,9 +140,12 @@ namespace Application.Services
                 return (RefreshTokenStatus.Invalid, null);
 
             var refreshToken = GenerateRefreshToken();
+
             user.RefreshToken = refreshToken;
             user.RefreshTokenCreated = DateTime.UtcNow;
-            await _userService.UpdateUser(user);  
+
+            await _userService.UpdateUser(user);
+
             return (RefreshTokenStatus.Valid, new RefreshTokenResult
             {
                 RefreshToken = refreshToken,
@@ -175,9 +182,9 @@ namespace Application.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            var jwt = tokenHandler.WriteToken(token);
+            var Jwt = tokenHandler.WriteToken(token);
 
-            return jwt;
+            return Jwt;
         }
         private string GenerateRefreshToken()
         {
